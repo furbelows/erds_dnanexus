@@ -1,6 +1,6 @@
 #!/bin/sh
 # Script to perform headless install on dnanexus instance
-# Tested on ubuntu14.04 base docker image
+# Tested on ubuntu14.04 dnanexus cloud workstation
 # alden.huang@gmail.com 07062018
 
 # update repos
@@ -14,8 +14,9 @@ echo "postfix postfix/main_mailer_type select No configuration" | sudo debconf-s
 
 # sge install
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gridengine-common gridengine-master
-sleep 15
+sleep 20
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gridengine-client gridengine-exec
+sleep 20
 
 # don't need this shit
 sudo service postfix stop
@@ -52,7 +53,9 @@ fi
 # add submit host
 sudo qconf -as `hostname`
 sudo service gridengine-exec restart
-sleep 15
+sleep 20
 
 # should be correct
 qstat -f 
+
+## DONE!
