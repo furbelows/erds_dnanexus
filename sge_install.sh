@@ -4,30 +4,30 @@
 # alden.huang@gmail.com 07062018
 
 # update repos
-apt-get update -qq
+sudo apt-get update -qq
 
 # configure the master host for SGE
-echo "gridengine-master	shared/gridenginemaster string localhost" | debconf-set-selections
-echo "gridengine-master	shared/gridenginecell string default" | debconf-set-selections
-echo "gridengine-master	shared/gridengineconfig boolean false" | debconf-set-selections
-echo "gridengine-common	shared/gridenginemaster string localhost" | debconf-set-selections
-echo "gridengine-common	shared/gridenginecell string default" | debconf-set-selections
-echo "gridengine-common	shared/gridengineconfig boolean false" | debconf-set-selections
-echo "gridengine-client	shared/gridenginemaster string localhost" | debconf-set-selections
-echo "gridengine-client	shared/gridenginecell string default" | debconf-set-selections
-echo "gridengine-client	shared/gridengineconfig boolean false" | debconf-set-selections
-echo "postfix postfix/main_mailer_type	select	No configuration" |  debconf-set-selections
+echo "gridengine-master shared/gridenginemaster string localhost" | sudo debconf-set-selections
+echo "gridengine-master shared/gridenginecell string default" | sudo debconf-set-selections
+echo "gridengine-master shared/gridengineconfig boolean false" | sudo debconf-set-selections
+echo "gridengine-common shared/gridenginemaster string localhost" | sudo debconf-set-selections
+echo "gridengine-common shared/gridenginecell string default" | sudo debconf-set-selections
+echo "gridengine-common shared/gridengineconfig boolean false" | sudo debconf-set-selections
+echo "gridengine-client shared/gridenginemaster string localhost" | sudo debconf-set-selections
+echo "gridengine-client shared/gridenginecell string default" | sudo debconf-set-selections
+echo "gridengine-client shared/gridengineconfig boolean false" | sudo debconf-set-selections
+echo "postfix postfix/main_mailer_type select No configuration" | sudo debconf-set-selections
 
 # sge install
-DEBIAN_FRONTEND=noninteractive apt-get install -yq gridengine-master gridengine-exec gridengine-client
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq gridengine-master gridengine-exec gridengine-client
 
 # set up sge
-/usr/share/gridengine/scripts/init_cluster /var/lib/gridengine default /var/spool/gridengine/spooldb sgeadmin
-service gridengine-master restart
+sudo /usr/share/gridengine/scripts/init_cluster /var/lib/gridengine default /var/spool/gridengine/spooldb sgeadmin
+sudo service gridengine-master restart
 
 # don't need this shit
-service postfix stop
-update-rc.d postfix disable
+sudo service postfix stop
+sudo update-rc.d postfix disable
 
 ## change scheduler to allow rapid submits
 cat > ./grid <<EOL
@@ -67,11 +67,11 @@ weight_priority                   0.000000
 max_reservation                   0
 default_duration                  INFINITY
 EOL
-qconf -Msconf ./grid
+sudo qconf -Msconf ./grid
 rm ./grid
 
 echo -e "group_name @allhosts\nhostlist NONE" > ./grid
-qconf -Ahgrp ./grid
+sudo qconf -Ahgrp ./grid
 rm ./grid
 
 ## add default queue
@@ -127,7 +127,7 @@ h_rss                 INFINITY
 s_vmem                INFINITY
 h_vmem                INFINITY
 EOL
-qconf -Aq ./grid
+sudo qconf -Aq ./grid
 rm ./grid
 
 QUEUE="all.q"
