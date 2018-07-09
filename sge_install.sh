@@ -9,21 +9,12 @@ sudo apt-get update -qq
 # configure the master host for SGE
 echo "gridengine-master shared/gridenginemaster string localhost" | sudo debconf-set-selections
 echo "gridengine-master shared/gridenginecell string default" | sudo debconf-set-selections
-echo "gridengine-master shared/gridengineconfig boolean false" | sudo debconf-set-selections
-echo "gridengine-common shared/gridenginemaster string localhost" | sudo debconf-set-selections
-echo "gridengine-common shared/gridenginecell string default" | sudo debconf-set-selections
-echo "gridengine-common shared/gridengineconfig boolean false" | sudo debconf-set-selections
-echo "gridengine-client shared/gridenginemaster string localhost" | sudo debconf-set-selections
-echo "gridengine-client shared/gridenginecell string default" | sudo debconf-set-selections
-echo "gridengine-client shared/gridengineconfig boolean false" | sudo debconf-set-selections
+echo "gridengine-master shared/gridengineconfig boolean true" | sudo debconf-set-selections
 echo "postfix postfix/main_mailer_type select No configuration" | sudo debconf-set-selections
 
 # sge install
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq gridengine-master gridengine-exec gridengine-client
-
-# set up sge
-sudo /usr/share/gridengine/scripts/init_cluster /var/lib/gridengine default /var/spool/gridengine/spooldb sgeadmin
-sudo service gridengine-master restart
+sudo DEBIAN_FRONTEND=noninteractive apt-get install gridengine-common gridengine-master
+sudo DEBIAN_FRONTEND=noninteractive apt-get install gridengine-client gridengine-exec
 
 # don't need this shit
 sudo service postfix stop
