@@ -35,8 +35,7 @@ HOSTNAME=`hostname`
 SLOTS=`grep -c "^processor" /proc/cpuinfo`
 
 # add to the execution host list
-qconf -Ae erds_dnanexus/host_defa
-rm $TMPFILE
+qconf -Ae erds_dnanexus/host_defaults
 
 # add to the all hosts list
 sudo qconf -aattr hostgroup hostlist $HOSTNAME @allhosts
