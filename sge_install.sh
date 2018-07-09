@@ -7,13 +7,13 @@
 apt-get update -qq
 
 # configure the master host for SGE
-echo "gridengine-master	shared/gridenginemaster string $HOSTNAME" | debconf-set-selections
+echo "gridengine-master	shared/gridenginemaster string localhost" | debconf-set-selections
 echo "gridengine-master	shared/gridenginecell string default" | debconf-set-selections
 echo "gridengine-master	shared/gridengineconfig boolean false" | debconf-set-selections
-echo "gridengine-common	shared/gridenginemaster string $HOSTNAME" | debconf-set-selections
+echo "gridengine-common	shared/gridenginemaster string localhost" | debconf-set-selections
 echo "gridengine-common	shared/gridenginecell string default" | debconf-set-selections
 echo "gridengine-common	shared/gridengineconfig boolean false" | debconf-set-selections
-echo "gridengine-client	shared/gridenginemaster string $HOSTNAME" | debconf-set-selections
+echo "gridengine-client	shared/gridenginemaster string localhost" | debconf-set-selections
 echo "gridengine-client	shared/gridenginecell string default" | debconf-set-selections
 echo "gridengine-client	shared/gridengineconfig boolean false" | debconf-set-selections
 echo "postfix postfix/main_mailer_type	select	No configuration" |  debconf-set-selections
@@ -153,7 +153,7 @@ fi
 
 # add submit host
 qconf -as `hostname`
-service service gridengine-exec restart
+sudo service gridengine-exec restart
 
 # should be correct
 qstat -f 
