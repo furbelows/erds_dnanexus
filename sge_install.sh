@@ -13,29 +13,30 @@ echo "gridengine-master shared/gridengineconfig boolean true" | sudo debconf-set
 echo "postfix postfix/main_mailer_type select No configuration" | sudo debconf-set-selections
 
 # sge install
-sudo DEBIAN_FRONTEND=noninteractive apt-get install gridengine-common gridengine-master
-sudo DEBIAN_FRONTEND=noninteractive apt-get install gridengine-client gridengine-exec
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gridengine-common gridengine-master
+sleep 15
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gridengine-client gridengine-exec
 
 # don't need this shit
 sudo service postfix stop
 sudo update-rc.d postfix disable
 
 ## change scheduler to allow rapid submits
-sudo qconf -Msconf erds_dnanexus/scheduler_defaults
+sudo qconf -Msconf scheduler_defaults
 
-echo -e "group_name @allhosts\nhostlist NONE" > ./grid
-sudo qconf -Ahgrp ./grid
-rm ./grid
+echo "group_name @allhosts\nhostlist NONE" > grid
+sudo qconf -Ahgrp grid
+rm grid
 
 ## add default queue
-sudo qconf -Aq erds_dnanexus/queue_defaults
+sudo qconf -Aq queue_defaults
 
 QUEUE="all.q"
 HOSTNAME=`hostname`
 SLOTS=`grep -c "^processor" /proc/cpuinfo`
 
 # add to the execution host list
-qconf -Ae erds_dnanexus/host_defaults
+qconf -Ae host_defaults
 
 # add to the all hosts list
 sudo qconf -aattr hostgroup hostlist $HOSTNAME @allhosts
@@ -51,6 +52,7 @@ fi
 # add submit host
 sudo qconf -as `hostname`
 sudo service gridengine-exec restart
+sleep 15
 
 # should be correct
 qstat -f 
