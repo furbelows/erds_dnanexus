@@ -35,9 +35,7 @@ HOSTNAME=`hostname`
 SLOTS=`grep -c "^processor" /proc/cpuinfo`
 
 # add to the execution host list
-TMPFILE=./sge.hostname-$HOSTNAME
-echo -e "hostname $HOSTNAME\nload_scaling NONE\ncomplex_values NONE\nuser_lists NONE\nxuser_lists NONE\nprojects NONE\nxprojects NONE\nusage_scaling NONE\nreport_variables NONE" > $TMPFILE
-qconf -Ae $TMPFILE
+qconf -Ae erds_dnanexus/host_defa
 rm $TMPFILE
 
 # add to the all hosts list
