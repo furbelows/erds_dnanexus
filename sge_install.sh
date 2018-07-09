@@ -36,7 +36,7 @@ HOSTNAME=`hostname`
 SLOTS=`grep -c "^processor" /proc/cpuinfo`
 
 # add to the execution host list
-qconf -Ae host_defaults
+sudo qconf -Ae host_defaults
 
 # add to the all hosts list
 sudo qconf -aattr hostgroup hostlist $HOSTNAME @allhosts
