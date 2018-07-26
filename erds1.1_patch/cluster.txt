@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #$ -S /usr/bin/perl
-#$ -l mem_free=8G
+#$ -l mem_free=16G
 use strict;
 
 our ($samplename, $bam_file, $variant_file, $aligned_length_thh, $consensus_score, $ERDS_dir, $gc_degree, $mq_degree, $mq_thh, $num_state, $ref_file, $ref_fai_file, $target_region, $rms, $SNP_quality, $variant_support, $win_size_small, $win_size_large, $sample_dir, $script_dir, $sd_dir, $log_dir, $rc_dir, $cnv_dir, $gcbin_dir, $samtools, $max_mq, $read_length, $min_det_size, $sd_win_size, $ins_pem, $gap_min, $gap_max, $low_scan_ratio, $pem_pairs, $low_pem_pairs, $rcp_rate, $clip_len, $clip_spt_pem, $clip_spt_npem, $softclip_check_thh, $large_pem, $small_pem);
